@@ -1,0 +1,106 @@
+{
+    "metadata": {
+        "created_at_utc": "2026-06-16T12:38:28+00:00",
+        "filename_prefix": "higher_airspeed_climb",
+        "description": "Longitudinal fixed-wing GNC simulation run configuration. Includes scenario settings, controller gains, trim solution, aircraft parameters, aerodynamic coefficients, propulsion settings, and actuator dynamics.",
+        "extra_metadata": {
+            "simulation_type": "2D longitudinal",
+            "state_vector": [
+                "u",
+                "w",
+                "q",
+                "theta",
+                "h",
+                "theta_error_integral",
+                "delta_e_actual",
+                "delta_t_actual"
+            ],
+            "control_architecture": {
+                "longitudinal_outer_loop": "altitude error -> pitch command",
+                "longitudinal_inner_loop": "pitch command -> elevator command through PID",
+                "airspeed_loop": "air-relative speed error -> throttle command"
+            },
+            "airspeed_definition": "air-relative speed computed from body velocity minus inertial wind converted into the body frame",
+            "actuator_model": "first-order lag with slew-rate limiting",
+            "anti_windup": "pitch integral freezes when integral/elevator saturation would worsen windup"
+        }
+    },
+    "scenario_config": {
+        "scenario_name": "higher_airspeed_climb",
+        "target_airspeed_mps": 30.0,
+        "trim_altitude_m": 100.0,
+        "command_start_time_s": 5.0,
+        "altitude_step_m": 20.0,
+        "sim_start_time_s": 0.0,
+        "sim_end_time_s": 70.0,
+        "num_time_points": 3000,
+        "gust_start_time_s": 25.0,
+        "gust_end_time_s": 30.0,
+        "gust_wind_x_mps": 0.0,
+        "gust_wind_z_mps": 2.0,
+        "use_smooth_gust": true,
+        "altitude_settling_tolerance_m": 1.0,
+        "airspeed_settling_tolerance_mps": 0.25,
+        "save_plots": true,
+        "results_dir": "results"
+    },
+    "controller_gains": {
+        "pitch_kp": 1.0,
+        "pitch_ki": 0.12,
+        "pitch_kd": 0.35,
+        "altitude_kh_rad_per_m": 0.004363323129985824,
+        "airspeed_kv": 0.15,
+        "max_pitch_integral_rad_s": 0.5235987755982988,
+        "max_elevator_rad": 0.4363323129985824,
+        "min_throttle": 0.0,
+        "max_throttle": 1.0,
+        "max_pitch_command_offset_rad": 0.17453292519943295
+    },
+    "trim_solution": {
+        "alpha_trim_rad": 0.03728666550557182,
+        "alpha_trim_deg": 2.136368565585295,
+        "theta_trim_rad": 0.03728666550557182,
+        "theta_trim_deg": 2.136368565585295,
+        "delta_e_trim_rad": -0.07509786578423458,
+        "delta_e_trim_deg": -4.302790759876554,
+        "delta_t_trim": 0.1845699096503055,
+        "u_trim": 29.979147984671876,
+        "w_trim": 1.1183407857823653,
+        "target_airspeed": 30.0
+    },
+    "aircraft_and_actuator_settings": {
+        "physical_constants": {
+            "gravity_mps2": 9.81,
+            "air_density_kgpm3": 1.225
+        },
+        "aircraft_properties": {
+            "mass_kg": 13.5,
+            "iyy_kg_m2": 1.135,
+            "wing_area_m2": 0.55,
+            "mean_aerodynamic_chord_m": 0.18994
+        },
+        "aerodynamic_coefficients": {
+            "CL0": 0.28,
+            "CL_ALPHA": 3.45,
+            "CL_Q": 0.0,
+            "CL_DE": -0.36,
+            "CD0": 0.03,
+            "CD_ALPHA": 0.3,
+            "CD_DE": 0.0,
+            "CM0": -0.02338,
+            "CM_ALPHA": -0.38,
+            "CM_Q": -3.6,
+            "CM_DE": -0.5
+        },
+        "propulsion": {
+            "max_thrust_N": 50.0
+        },
+        "actuator_dynamics": {
+            "elevator_time_constant_s": 0.1,
+            "throttle_time_constant_s": 0.5,
+            "max_elevator_rate_rad_s": 1.0471975511965976,
+            "max_elevator_rate_deg_s": 59.99999999999999,
+            "max_throttle_rate_per_s": 1.0
+        }
+    }
+}
